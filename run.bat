@@ -1,13 +1,11 @@
-#!/bin/bash
-
-export DB_SCHEMA=kitchen_talk
-export DB_USER=postgres
-export DB_PASSWORD=test1234
-export DB_DATABASE=postgres
-export DB_POOL_SIZE=10
-export DB_QUERY_TIMEOUT=20000
-export DB_HOST=localhost
-export APP_PORT=9002
+set DB_SCHEMA=kitchen_talk
+set DB_USER=postgres
+set DB_PASSWORD=test1234
+set DB_DATABASE=postgres
+set DB_POOL_SIZE=10
+set DB_QUERY_TIMEOUT=20000
+set DB_HOST=localhost
+set APP_PORT=9002
 
 mvn clean package
 
