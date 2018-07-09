@@ -1,5 +1,3 @@
-@echo off
-
 set DB_SCHEMA=kitchen_talk
 set DB_USER=postgres
 set DB_PASSWORD=test1234
@@ -9,7 +7,6 @@ set DB_QUERY_TIMEOUT=20000
 set DB_HOST=localhost
 set APP_PORT=9002
 
-echo External services
 set EVENT_EMPLOYEE=EmployeeListenerEvent
 set EVENT_PORT_ACQUISITIONS=10012
 set EVENT_PORT_LEGAL=10013
