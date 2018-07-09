@@ -87,7 +87,7 @@ public class QueryEmployeeUtil {
         query.append(" level, ");
         query.append(" entry_date");
         query.append(") ");
-        query.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+        query.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id ");
 
         return query.toString();
     }

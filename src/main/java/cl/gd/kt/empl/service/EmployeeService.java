@@ -10,17 +10,17 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    EmployeeService getEmployees (Handler<AsyncResult<List<Employee>>> resultHandler);
+    void getEmployees (Handler<AsyncResult<List<Employee>>> resultHandler);
 
-    EmployeeService getEmployeeById (Long id, Handler<AsyncResult<Employee>> resultHanlder);
+    void getEmployeeById (Long id, Handler<AsyncResult<Employee>> resultHanlder);
 
-    EmployeeService postEmployee (Employee employee, Handler<AsyncResult<Void>> resultHandler);
+    void postEmployee (Employee employee, Handler<AsyncResult<Void>> resultHandler);
 
-    EmployeeService putEmployee (Employee employee, Handler<AsyncResult<Void>> resultHandler);
+    void putEmployee (Employee employee, Handler<AsyncResult<Void>> resultHandler);
 
-    EmployeeService deleteEmployee (String id, Handler<AsyncResult<Void>> resultHandler);
+    void deleteEmployee (String id, Handler<AsyncResult<Void>> resultHandler);
 
-    EmployeeService getEmployeesPaginated (Paginator page, Handler<AsyncResult<List<Employee>>> resultHandler);
+    void getEmployeesPaginated (Paginator page, Handler<AsyncResult<List<Employee>>> resultHandler);
 
-    EmployeeService getEmployeesCount (String isActive, Handler<AsyncResult<Count>> resultHandler);
+    void getEmployeesCount (String isActive, Handler<AsyncResult<Count>> resultHandler);
 }

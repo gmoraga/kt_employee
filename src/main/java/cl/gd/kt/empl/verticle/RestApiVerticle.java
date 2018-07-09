@@ -1,5 +1,12 @@
 package cl.gd.kt.empl.verticle;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Function;
+
+import cl.gd.kt.empl.util.AppEnum;
+import cl.gd.kt.empl.util.DataBaseEnum;
+import cl.gd.kt.empl.util.SystemUtil;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -12,16 +19,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Function;
-
-import cl.gd.kt.empl.util.AppEnum;
-import cl.gd.kt.empl.util.DataBaseEnum;
-import cl.gd.kt.empl.util.SystemUtil;
-
 @Slf4j
-public abstract class RestAPIVerticle extends AbstractVerticle {
+public abstract class RestApiVerticle extends AbstractVerticle {
 
 	protected static final String INFORMATION_REQUIRED = "Information is required";
 

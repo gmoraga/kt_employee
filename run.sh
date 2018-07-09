@@ -9,6 +9,11 @@ export DB_QUERY_TIMEOUT=20000
 export DB_HOST=localhost
 export APP_PORT=9002
 
+#External services
+export EVENT_EMPLOYEE=EmployeeListenerEvent
+export EVENT_PORT_ACQUISITIONS=10012
+export EVENT_PORT_LEGAL=10013
+
 mvn clean package
 
 java -Xms256m -Xmx512m -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory -Dlogback.configurationFile=src/main/resources/logback.xml -jar target/kt-employee-fat.jar

@@ -1,73 +1,86 @@
 package cl.gd.kt.empl.service;
 
+import java.util.List;
+
 import cl.gd.kt.empl.dao.EmployeeDAO;
 import cl.gd.kt.empl.model.Employee;
 import cl.gd.kt.empl.model.commons.Count;
 import cl.gd.kt.empl.model.commons.Paginator;
+import cl.gd.kt.empl.verticle.event.PublishEvent;
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
-import java.util.List;
-
 public class EmployeeServiceImpl implements EmployeeService {
+	
+	private static final String TYPE_EVENT_CREATE = "CREATE";
+	private static final String TYPE_EVENT_UPDATE = "UPDATE";
+	private static final String TYPE_EVENT_DELETE = "DELETE";
 
     private final EmployeeDAO employeeDAO;
+    private final PublishEvent publishEvent;
 
-    public EmployeeServiceImpl(Vertx vertx, JsonObject config) {
+    public EmployeeServiceImpl(Vertx vertx, JsonObject config, PublishEvent publishEvent) {
         this.employeeDAO = new EmployeeDAO(vertx, config);
+        this.publishEvent = publishEvent;
     }
 
     @Override
-    public EmployeeService getEmployees (Handler<AsyncResult<List<Employee>>> resultHandler) {
-
-        employeeDAO.getEmployees(resultHandler);
-        return this;
+    public void getEmployees (Handler<AsyncResult<List<Employee>>> resultHandler) {
+        this.employeeDAO.getEmployees(resultHandler);
     }
 
     @Override
-    public EmployeeService getEmployeeById (Long id, Handler<AsyncResult<Employee>> resultHandler) {
-
-        employeeDAO.getEmployeById(id, resultHandler);
-        return this;
+    public void getEmployeeById (Long id, Handler<AsyncResult<Employee>> resultHandler) {
+        this.employeeDAO.getEmployeById(id, resultHandler);
     }
 
     @Override
-    public EmployeeService postEmployee (Employee employee, Handler<AsyncResult<Void>> resultHandler) {
-
-        employeeDAO.postEmployee (employee, resultHandler);
-
-        return this;
+    public void postEmployee(Employee employee, Handler<AsyncResult<Void>> resultHandler) {
+        this.employeeDAO.postEmployee(employee, resultInsertHandler -> {
+        	if (resultInsertHandler.succeeded()) {
+        		this.publishEvent.sendEmployeeMessage(resultInsertHandler.result(), TYPE_EVENT_CREATE);
+        		resultHandler.handle(Future.succeededFuture());
+        	} else {
+        		resultHandler.handle(Future.failedFuture(resultInsertHandler.cause()));
+        	}
+        });
     }
 
     @Override
-    public EmployeeService putEmployee (Employee employee, Handler<AsyncResult<Void>> resultHandler) {
+    public void putEmployee (Employee employee, Handler<AsyncResult<Void>> resultHandler) {
 
-        employeeDAO.putEmployee (employee, resultHandler);
-        return this;
+        this.employeeDAO.putEmployee(employee, resultUpdateHandler -> {
+        	if (resultUpdateHandler.succeeded()) {
+        		this.publishEvent.sendEmployeeMessage(employee.getId(), TYPE_EVENT_UPDATE);
+        		resultHandler.handle(Future.succeededFuture());
+        	} else {
+        		resultHandler.handle(Future.failedFuture(resultUpdateHandler.cause()));
+        	}
+        });
     }
 
     @Override
-    public EmployeeService deleteEmployee (String id, Handler<AsyncResult<Void>> resultHandler) {
-
-        employeeDAO.deleteEmployee (id, resultHandler);
-        return this;
+    public void deleteEmployee (String id, Handler<AsyncResult<Void>> resultHandler) {
+        this.employeeDAO.deleteEmployee(id, resultDeleteHandler -> {
+        	if (resultDeleteHandler.succeeded()) {
+        		this.publishEvent.sendEmployeeMessage(Long.valueOf(id), TYPE_EVENT_DELETE);	
+        		resultHandler.handle(Future.succeededFuture());
+        	} else {
+        		resultHandler.handle(Future.failedFuture(resultDeleteHandler.cause()));
+        	}
+        });
     }
 
     @Override
-    public EmployeeService getEmployeesPaginated (Paginator page, Handler<AsyncResult<List<Employee>>> resultHandler) {
-
-        employeeDAO.getByPage(page.getPage(), page.getLimit(), resultHandler);
-
-        return this;
+    public void getEmployeesPaginated (Paginator page, Handler<AsyncResult<List<Employee>>> resultHandler) {
+        this.employeeDAO.getByPage(page.getPage(), page.getLimit(), resultHandler);
     }
 
     @Override
-    public EmployeeService getEmployeesCount (String isActive, Handler<AsyncResult<Count>> resultHandler) {
-
-        employeeDAO.getEmployeesCount(isActive, resultHandler);
-
-        return this;
+    public void getEmployeesCount (String isActive, Handler<AsyncResult<Count>> resultHandler) {
+        this.employeeDAO.getEmployeesCount(isActive, resultHandler);
     }
 }

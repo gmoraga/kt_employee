@@ -44,22 +44,21 @@
 
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>vertx-jdbc-client</artifactId>
-            <version>${vertx.version}</version>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>io.vertx</groupId>
             <artifactId>vertx-mysql-postgresql-client</artifactId>
             <version>${vertx.version}</version>
         </dependency>
-
+		
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-config</artifactId>
             <version>${vertx.version}</version>
         </dependency>
+        
+		<dependency>
+		  <groupId>io.vertx</groupId>
+		  <artifactId>vertx-tcp-eventbus-bridge</artifactId>
+		  <version>${vertx.version}</version>
+		</dependency>
 
         <!-- Others -->
         <dependency>
@@ -74,28 +73,7 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${apache-commons.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>${commons-beanutils.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk</artifactId>
-            <version>${amazon-aws.version}</version>
-        </dependency>
+        
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -135,7 +113,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>io.vertx.core.Starter</Main-Class>
-                                        <Main-Verticle>cl.gd.kt.empl.verticle.EmployeeVerticle</Main-Verticle>
+                                        <Main-Verticle>cl.gd.kt.empl.verticle.EmployeeMainVerticle</Main-Verticle>
                                     </manifestEntries>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
@@ -165,7 +143,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
 
         </plugins>
     </build>
